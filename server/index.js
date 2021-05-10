@@ -8,11 +8,12 @@ import posts from './routes/posts.js'
 
 const app = express()
 
-app.use('/posts',posts)
+
 
 app.use(bodyParser.json({limit:"30mb",extended:true}))
 app.use(bodyParser.urlencoded({limit:"30mb",extended:true}))
 app.use(cors())
+app.use('/posts',posts)
 
 const CONNECTION_URL='mongodb+srv://samarthgowda:test123@cluster0.jippb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const PORT= process.env.PORT||5000;

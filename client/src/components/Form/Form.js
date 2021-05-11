@@ -7,12 +7,13 @@ import {useDispatch,useSelector} from 'react-redux'
 import {createPost,updatePost} from '../../actions/posts'
 
 const Form=({currentId,setCurrentId}) => {
-    const post= useSelector((state)=>currentId?state.posts.find((p)=>p._id===currentId):null);
-    const classes = useStyles();
     const [postData,setPostData] = useState({
         creator:'', title:'', message:'', tags:"", selectedFile:'',
 
     })
+    const post= useSelector((state)=>currentId?state.posts.find((p)=>p._id===currentId):null);
+    const classes = useStyles();
+    
     useEffect(()=>{
         if(post){
             setPostData(post)
@@ -24,15 +25,16 @@ const Form=({currentId,setCurrentId}) => {
         e.preventDefault()
 
         if(currentId){
-            dispatch(updatePost(currentId,postData))
+            dispatch(updatePost(currentId,postData));
         }else{
-            dispatch(createPost(postData))
-
+            dispatch(createPost(postData));
         }
+        clear();
     }
 
     const clear=()=>{
-        console.log("working on this later")
+        setCurrentId(null);
+        setPostData({creator:'', title:'', message:'', tags:"", selectedFile:''})
     }
     return(
         <Paper className={classes.paper}>

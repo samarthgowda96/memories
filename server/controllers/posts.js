@@ -45,7 +45,7 @@ export const updatePost= async(req,res) => {
 }
 
 export const deletePost= async(req, res) => {
-    //const {id:_id}= req.params;
+    //const {id}= req.params; same thing as below line
     const {id:_id}= req.params
     if(!mongoose.Types.ObjectId.isValid(_id)) return res.send("No Post to delete")
     try {
@@ -54,6 +54,21 @@ export const deletePost= async(req, res) => {
         
     } catch (error) {
         res.send(404).json({message:error.message})
+        
+    }
+}
+
+export const likePost= async(req, res) => {
+    const{id:_id}= req.params;
+    if(!mongoose.Types.ObjectId.isValid(_id)) return res.send("No Post to Like!")
+    try {
+            const post = await PostMessage.findById(_id);
+            const updatedPost= await PostMessage.findByIdAndUpdate(_id,{likeCount:post.likeCount+1},{new:true})
+            res.status(200).json(updatedPost)
+
+        
+    } catch (error) {
+        res.status(404).json({message:error.message})
         
     }
 }
